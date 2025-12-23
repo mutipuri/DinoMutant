@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block htitle %}
+  シミュレーター
+{% endblock %}
+
+{% block mtitle %}
+  データベースでまとめたやつ
+{% endblock %}
+
+{% block content %}
+  # 体力と攻撃力を入力したら+150してレベルを表示する{% comment %}体力と攻撃力を入力できる欄{% endcomment %}<br />
+  <form method="post">
+    {% csrf_token %}
+    <div style="display: flex; gap: 20px;">
+      <div class="box">
+        <h3>自分の恐竜のレベル</h3>
+        <table>
+          <tr>
+            <td>
+              <label for="my_dino_hp">体力:</label>
+              <input type="number" id="my_dino_hp" name="my_dino_hp" value="{{ my_dino_hp }}" required />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="my_dino_attack">攻撃力:</label>
+              <input type="number" id="my_dino_attack" name="my_dino_attack" value="{{ my_dino_attack }}" required />
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="box">
+        <h3>敵のレベル</h3>
+        <input type="number" id="enemy_level" name="enemy_level" value="{{ enemy_level }}" required /><br />
+      </div>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <button type="button" id="calc-btn">計算する</button><br />
+    </div>
+  </form>
+  {% include 'kekka.html' %}
+  <div style="margin-top: 20px; text-align: center;">
+    <a href="{% url 'index' %}">メインメニューへ戻る</a>
+  </div>
+  <script src="{% static 'js/kekkahyouji.js' %}"></script>
+{% endblock %}

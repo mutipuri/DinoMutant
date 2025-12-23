@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block htitle %}
+  敵レベル&被ダメ計算ツール
+{% endblock %}
+
+{% block mtitle %}
+  レベル別に敵を確認、素材集め
+{% endblock %}
+
+{% block content %}
+  <table>
+    <nav>
+      <ul>
+        <a href="{% url 'main' %}">シミュレーション</a><br />
+        <a href="{% url 'shousai' %}">詳細</a>
+      </ul>
+    </nav>
+  </table>
+
+  <table>
+    ナビゲーション欄<br />
+  </table>
+{% endblock %}

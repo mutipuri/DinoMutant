@@ -1,0 +1,50 @@
+<div class="result-container">
+  <div class="main">
+    <h3>総合被ダメ</h3><span id="res-total-damage">{{ total_damage }}</span>
+    <h3>回復時間</h3>{% if recovery_time %}
+      <span>{{ recovery_time }}</span><h3>秒</h3>
+    {% endif %}
+  </div>
+
+  <div class="meat">
+    <p>肉の量</p>
+    <p>
+      <span id="res-niku">{{ niku }}</span>
+    </p>
+  </div>
+
+  <div class="sozai">
+    <table>
+      <tr>
+        <th>藁</th>
+        <th>皮</th>
+        <th>爪</th>
+        <th>クリスタル</th>
+      </tr>
+      <tr>
+        <td id="res-wara">{{ wara }}</td>
+        <td id="res-kawa">{{ kawa }}</td>
+        <td id="res-tume">{{ tume }}</td>
+        <td id="res-cry">{{ cry }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="onepan">
+    <p>ワンパンできる必要攻撃力</p>
+    <p>
+      <span id="res-one-shot-atk">{{ one_shot_atk }}</span>
+    </p>
+
+    <div style="display: flex; justify-content: space-around;">
+      <div>
+        <p>敵体力</p>
+        <p id="res-enemy-hp">{{ enemy_hp }}</p>
+      </div>
+      <div>
+        <p>敵攻撃力</p>
+        <p id="res-enemy-atk">{{ enemy_atk }}</p>
+      </div>
+    </div>
+  </div>
+</div>
