@@ -1,8 +1,11 @@
 <div class="result-container">
   <div class="main">
-    <h3>総合被ダメ</h3><span id="res-total-damage">{{ total_damage }}</span>
-    <h3>回復時間</h3>{% if recovery_time %}
-      <span>{{ recovery_time }}</span><h3>秒</h3>
+    <h3>総合被ダメ</h3><span id="res-total-damage">
+      {{ total_damage }}</span>
+      
+    <h3>回復時間</h3>
+    {% if recovery_time %}
+      <span>{{ recovery_time }}</span>
     {% endif %}
   </div>
 
