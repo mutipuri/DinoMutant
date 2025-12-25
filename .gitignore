@@ -3,3 +3,6 @@
 config/
 practiceapp/
 学校で使ったやつ/
+.gitignore
+school/
+SantaSystem/

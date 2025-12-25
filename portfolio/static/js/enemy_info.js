@@ -11,7 +11,10 @@ fetch('/static/data/dino_mutant.json')
         // データが配列（make_json.pyで作ったフラットなリスト）の場合
         if (Array.isArray(data)) {
             if (data.length === 0) return;
-            data.sort((a, b) => a.level - b.level);
+            data.sort((a, b) => {
+                const getVal = v => typeof v === 'string' ? parseInt(v.replace(/,/g, ''), 10) : v;
+                return getVal(a.level) - getVal(b.level);
+            });
             const minLv = data[0].level;
             const maxLv = data[data.length - 1].level;
             createAccordion(areaList, `${minLv} ～ ${maxLv}`, data);
@@ -40,11 +43,50 @@ function createAccordion(parent, label, items) {
 
     // 2. 範囲を表示するボタン（親アコーディオン）
     const rangeBtn = document.createElement('button');
-    rangeBtn.textContent = label;
+    rangeBtn.className = 'btn w-100 text-start mb-2 fw-bold border border-2 shadow py-3 px-4';
+    rangeBtn.innerHTML = `<span class="fs-4">${label}</span>`;
 
     // 3. レベル一覧が入るコンテナ（初期状態は非表示）
     const levelsContainer = document.createElement('div');
+    levelsContainer.className = 'p-3 mb-4 bg-light rounded border shadow-sm'; // コンテナのデザイン
     levelsContainer.style.display = 'none'; // 最初は隠す
+
+    // 特定の範囲に色を付ける
+    if (items.length > 0) {
+        const parseLv = v => typeof v === 'string' ? parseInt(v.replace(/,/g, ''), 10) : v;
+        const start = parseLv(items[0].level);
+        const end = parseLv(items[items.length - 1].level);
+
+        let bgColor = '#fff';
+        let containerColor = '#fff';
+
+        if (start === 1120 && end === 1156) {
+            bgColor = '#3c8eecff'; // 水色
+            containerColor = '#c5e0fc'; // 薄い水色
+        } else if (start === 2070 && end === 2144) {
+            bgColor = '#81ddf2ff'; // 黄緑色
+            containerColor = '#d9f5fc'; // 薄い黄緑色
+        } else if (start === 2148 && end === 2302) {
+            bgColor = '#7ef67cff'; // 黄色
+            containerColor = '#d8fcd8'; // 薄い黄色
+        } else if (start === 2306 && end === 2381) {
+            bgColor = '#e9f982ff'; // オレンジ
+            containerColor = '#f9fcd9'; // 薄いオレンジ
+        } else if (start === 2385 && end === 2499) {
+            bgColor = '#f6bbebff'; // 薄紫
+            containerColor = '#fcebf9'; // 薄い紫
+        } else if (start === 2503 && end === 2696) {
+            bgColor = '#ff8c00'; // 橙色
+            containerColor = '#ffe0b3'; // 薄い橙色
+        }
+
+        rangeBtn.style.backgroundColor = bgColor;
+        if (bgColor !== '#fff') {
+            levelsContainer.style.backgroundColor = containerColor;
+            levelsContainer.classList.remove('bg-light');
+        }
+        rangeBtn.style.color = '#000';
+    }
 
     // 範囲ボタンをクリックした時の動作
     rangeBtn.onclick = () => {
@@ -67,24 +109,44 @@ function createAccordion(parent, label, items) {
 
         // レベルボタン
         const levelBtn = document.createElement('button');
-        levelBtn.textContent = `Lv.${item.level}`;
+        levelBtn.className = 'btn btn-white w-100 text-start mb-2 border shadow-sm fw-bold';
+        levelBtn.textContent = `Lv.${item.level.toLocaleString()}`;
 
         // 詳細情報のコンテナ（初期状態は非表示）
         const detailDiv = document.createElement('div');
         detailDiv.style.display = 'none'; // 最初は隠す
 
         // 詳細情報の中身（HTML）
+        // simulation.htmlのデザインに合わせてリッチにする
         detailDiv.innerHTML = `
-                    <ul>
-                        <li>肉: ${item.niku}</li>
-                        <li>藁: ${item.wara}</li>
-                        <li>皮: ${item.kawa}</li>
-                        <li>爪: ${item.tume}</li>
-                        <li>クリスタル: ${item.cry}</li>
-                        <li>敵HP: ${item.enemy_hp}</li>
-                        <li>敵攻撃力: ${item.enemy_atk}</li>
-                        <li>ワンパン必要攻撃力: ${item.one_shot_atk}</li>
-                    </ul>
+                    <div class="card card-body border-0 bg-white mb-3 shadow-sm">
+                        <div class="text-center mb-3 border rounded p-2 bg-light">
+                            <span class="fw-bold fs-5">肉:</span> 
+                            <span class="text-danger fw-bold fs-3 ms-2">${item.niku.toLocaleString()}</span>
+                        </div>
+                        
+                        <div class="table-responsive mb-3">
+                            <table class="table table-bordered table-dark text-center mb-0">
+                                <thead>
+                                    <tr><th>藁</th><th>皮</th><th>爪</th><th>クリスタル</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="fs-5 fw-bold">${item.wara}</td>
+                                        <td class="fs-5 fw-bold">${item.kawa}</td>
+                                        <td class="fs-5 fw-bold">${item.tume}</td>
+                                        <td class="fs-5 fw-bold">${item.cry}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="row text-center g-2">
+                            <div class="col-4"><div class="small fw-bold text-muted">体力</div><div class="text-danger fw-bold fs-5">${item.enemy_hp.toLocaleString()}</div></div>
+                            <div class="col-4"><div class="small fw-bold text-muted">攻撃</div><div class="text-danger fw-bold fs-5">${item.enemy_atk.toLocaleString()}</div></div>
+                            <div class="col-4"><div class="small fw-bold text-muted">ワンパン</div><div class="text-danger fw-bold fs-5">${item.one_shot_atk.toLocaleString()}</div></div>
+                        </div>
+                    </div>
                 `;
 
         // レベルボタンをクリックした時の動作

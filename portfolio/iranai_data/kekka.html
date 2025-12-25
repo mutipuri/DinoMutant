@@ -1,3 +1,4 @@
+{% if total_damage %}
 <div class="result-container">
   <div class="main">
     <h3>総合被ダメ</h3><span id="res-total-damage">
@@ -8,6 +9,7 @@
       <span>{{ recovery_time }}</span>
     {% endif %}
   </div>
+{% endif %}
 
   <div class="meat">
     <p>肉の量</p>

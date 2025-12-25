@@ -6,45 +6,118 @@
 {% endblock %}
 
 {% block mtitle %}
-  未完成
+  自分の恐竜の体力と攻撃力、敵のレベルを入力すると<br />
+  全体が受けるダメージ量と1体辺りの回復時間が見れます。
 {% endblock %}
 
 {% block content %}
-  # (余裕があったら)体力と攻撃力を入力したら+150してレベルを表示する{% comment %}体力と攻撃力を入力できる欄{% endcomment %}<br />
-  <form method="post">
-    {% csrf_token %}
-    <div style="display: flex; gap: 20px;">
-      <div class="box">
-        <h3>自分の恐竜のレベル</h3>
-        <table>
-          <tr>
-            <td>
-              <label for="my_dino_hp">体力:</label>
-              <input type="number" id="my_dino_hp" name="my_dino_hp" value="{{ my_dino_hp }}" required />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="my_dino_atk">攻撃力:</label>
-              <input type="number" id="my_dino_atk" name="my_dino_atk" value="{{ my_dino_atk }}" required />
-            </td>
-          </tr>
+  <form method="post" action="{% url 'simulation' %}">
+    <div class="calculator-container">
+      {% csrf_token %}
+      <div class="row justify-content-center g-3">
+        <div class="col-md-6">
+          <div class="card p-3 h-100">
+            <h3 class="title dino-text text-center">自分の恐竜のレベル</h3>
+            <div class="text-center mb-2">
+              <p class="small-note mb-1">※入力したら速度の分の150がプラスされます</p>
+              <b class="fs-5">Lv.<span id="my_level"></span></b>
+            </div>
+            <div class="input-group-custom">
+              <label for="my_dino_hp">体 力：</label>
+              <input type="number" id="my_dino_hp" name="my_dino_hp" value="{{ my_dino_hp|default_if_none:'' }}" placeholder="例: 700" required />
+            </div>
+            <div class="input-group-custom">
+              <label for="my_dino_atk">攻撃力：</label>
+              <input type="number" id="my_dino_atk" name="my_dino_atk" value="{{ my_dino_atk|default_if_none:'' }}" placeholder="例: 850" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card p-3 h-100">
+            <h3 class="title dino-text text-center">敵の恐竜のレベル</h3>
+            <div class="input-group-custom flex-grow-1 mb-0">
+              <input type="number" id="enemy_level" name="enemy_level" value="{{ enemy_level|default_if_none:'' }}" placeholder="例: 1000" required class="large-input" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button type="submit" id="calc-btn" class="calc-btn">計算する</button>
+      </div>
+    </div>
+  </form>
+
+  {% if level_message %}
+    <div class="alert alert-warning text-center fs-4">{{ level_message }}</div>
+  {% endif %}
+
+  {% if result is not None %}
+    <div class="card large-card mt-4">
+      <div class="result-grid">
+        <div class="result-item result-box">
+          <h3 class="result-label">総合被ダメ</h3>
+          <span class="result-value">{{ result }}</span>
+        </div>
+        <div class="result-item result-box">
+          <h3 class="result-label">回復時間</h3>
+          <span class="result-value">{{ recovery_time }}</span>
+        </div>
+      </div>
+
+      <div class="meat mt-4 result-box">
+        <p class="result-label">肉の量</p>
+        <p>
+          <span id="res-niku" class="result-value">{{ niku }}</span>
+        </p>
+      </div>
+
+      <div class="sozai mt-4">
+        <table class="table table-bordered table-dark text-center sozai-table">
+          <thead>
+            <tr>
+              <th>藁</th>
+              <th>皮</th>
+              <th>爪</th>
+              <th>クリスタル</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="res-wara">{{ wara }}</td>
+              <td id="res-kawa">{{ kawa }}</td>
+              <td id="res-tume">{{ tume }}</td>
+              <td id="res-cry">{{ cry }}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
 
-      <div class="box">
-        <h3>敵のレベル</h3>
-        <input type="number" id="enemy_level" name="enemy_level" value="{{ enemy_level }}" required /><br />
+      <div class="onepan text-center mt-4">
+        <p class="result-label">ワンパンできる1体辺りの必要攻撃力</p>
+        <p>
+          <span id="res-one-shot-atk" class="result-value">{{ one_shot_atk }}</span>
+        </p>
+
+        <div class="row mt-3">
+          <div class="col">
+            <p class="result-label mb-0">敵体力</p>
+            <p id="res-enemy-hp" class="result-value">{{ enemy_hp }}</p>
+          </div>
+          <div class="col">
+            <p class="result-label mb-0">敵攻撃力</p>
+            <p id="res-enemy-atk" class="result-value">{{ enemy_atk }}</p>
+          </div>
+        </div>
       </div>
     </div>
+  {% endif %}
 
-    <div style="margin-top: 20px; text-align: center;">
-      <button type="submit" id="calc-btn">計算する</button><br />
-    </div>
-  </form>
-  {% include 'kekka.html' %}
-  <div style="margin-top: 20px; text-align: center;">
-    <a href="{% url 'index' %}">メインメニューへ戻る</a>
+  <div class="back-link">
+    <a href="{% url 'index' %}" class="btn btn-secondary btn-lg px-5 rounded-pill shadow-sm">メインメニューへ戻る</a>
+    <a href="{% url 'shousai' %}" class="btn btn-outline-secondary btn-lg px-5 rounded-pill shadow-sm ms-3">敵一覧へ</a>
   </div>
-  <script src="{% static 'js/kekkahyouji.js' %}"></script>
+
+  <script src="{% static 'js/level.js' %}"></script>
 {% endblock %}

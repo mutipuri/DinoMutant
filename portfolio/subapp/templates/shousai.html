@@ -6,13 +6,17 @@
 {% endblock %}
 
 {% block mtitle %}
-  レベル別
+  レベル別に報酬素材とステータスが見れます
 {% endblock %}
 
 {% block content %}
   {# JavaScriptがこのdivの中にアコーディオンを生成します #}
   <div id="area-list">読み込み中...</div>
+
+  <div class="back-link">
+    <a href="{% url 'index' %}" class="btn btn-secondary btn-lg px-5 rounded-pill shadow-sm">メインメニューへ戻る</a>
+    <a href="{% url 'simulation' %}" class="btn btn-outline-secondary btn-lg px-5 rounded-pill shadow-sm ms-3">シミュレーションへ</a>
+  </div>
+
   <script src="{% static 'js/enemy_info.js' %}"></script>
-  <br /><br />
-  <a href="{% url 'index' %}">戻る</a>
 {% endblock %}

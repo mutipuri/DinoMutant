@@ -6,7 +6,7 @@ document.getElementById('calc-btn').addEventListener('click', function () {
     console.log("数値:", enemyLevel);
 
     if (isNaN(enemyLevel)) {
-        alert("敵レベルを入力して");
+        alert("敵レベルを入力してほしい");
         return;
     }
 

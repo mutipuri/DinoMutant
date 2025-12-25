@@ -1,0 +1,59 @@
+if request.method == 'POST':
+        # 入力値を取得
+        my_dino_hp = int(request.POST.get('my_dino_hp'))  # RIGHT(M$3,3)
+        my_dino_atk = int(request.POST.get('my_dino_atk'))    # MID(M$3,3)
+        enemy_level = int(request.POST.get('enemy_level'))
+
+        # JSONデータを読み込む
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        json_path = os.path.join(base_dir, 'static', 'data', 'dino_mutant.json')
+        
+        enemy_hp = 0
+        enemy_atk = 0
+        
+        if os.path.exists(json_path):
+            with open(json_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                for enemies in data.values():
+                    for enemy in enemies:
+                        if enemy['level'] == enemy_level:
+                            enemy_hp = enemy['enemy_hp']
+                            enemy_atk = enemy['enemy_atk']
+                            break
+                    if enemy_hp != 0:
+                        break
+
+        dinos = 11  # 恐竜の数
+
+        # 必要攻撃回数
+        total_my_atk = my_dino_atk * dinos  # 恐竜の合計攻撃力
+        if enemy_hp <= total_my_atk:    # 敵の体力より合計攻撃力が高かったら
+            attack_count = 0    # 攻撃回数は0回
+        else:
+            attack_count = math.floor(
+                (enemy_hp / total_my_atk) - 0.00001)
+
+        # 総合被ダメ(/@より前)
+        total_damage = attack_count * enemy_atk
+
+        # 狩りに行けない判定
+        max_my_hp = my_dino_hp * dinos
+
+        if total_damage >= max_my_hp:   # 最大体力より総合被ダメが高かったら
+            return render(request, 'kekka.html', {'total_damage': '狩りに行けない'})
+
+        # 回復時間(/@より後)
+        damage = total_damage // dinos
+        if damage >= 60:
+            minutes = damage // 60
+            damage = damage % 60
+            recovery_time = f"{minutes}m{damage}s"
+        else:
+            recovery_time = f"{damage}s"
+
+        # テンプレートへ渡す
+        return render(request, 'kekka.html', {
+            "total_damage" : total_damage,
+            "recovery_time" : recovery_time,
+            "attack_count" : attack_count,
+        })

@@ -3,5 +3,6 @@ from mainapp import admin, views
 
 urlpatterns = [
     path("",views.dino, name="main"),
-    path("kekka", views.kekka, name="kekka")
+    path("kekka", views.dino, name="kekka"),
+    path('simula/', views.simulation, name='simulation'),
 ]
