@@ -120,4 +120,19 @@
   </div>
 
   <script src="{% static 'js/level.js' %}"></script>
+  <script>
+    // ページ読み込み完了時に実行
+    document.addEventListener('DOMContentLoaded', function () {
+      const hpInput = document.getElementById('my_dino_hp')
+      const atkInput = document.getElementById('my_dino_atk')
+    
+      // 値が入っている場合、inputイベントを強制的に起こして level.js の計算処理を動かす
+      if (hpInput && hpInput.value) {
+        hpInput.dispatchEvent(new Event('input', { bubbles: true }))
+      }
+      if (atkInput && atkInput.value) {
+        atkInput.dispatchEvent(new Event('input', { bubbles: true }))
+      }
+    })
+  </script>
 {% endblock %}
