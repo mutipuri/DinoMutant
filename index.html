@@ -1,0 +1,67 @@
+  敵レベル&被ダメ計算ツール
+
+  DinoMutantの攻略・計算ツールへようこそ！
+
+  <div class="text-center py-4">
+    <div class="mb-5">
+      <img src="{% static 'img/icon.webp' %}" alt="DinoMutant Icon" class="home-icon img-fluid rounded-circle shadow mb-4" width="180" height="180" />
+      <h2 class="fw-bold mb-3 dino-text">Let's Hunting!</h2>
+      <p class="text-muted fs-5">
+        効率的な狩りのための計算や、敵のステータス確認ができます。<br />
+        下のメニューから利用したい機能を選んでください。
+      </p>
+    </div>
+
+    <div class="row justify-content-center g-4">
+      <div class="col-md-5 col-lg-4">
+        <a href="{% url 'simulation' %}" class="text-decoration-none">
+          <div class="card h-100 shadow-sm border-0 hover-card bg-white">
+            <div class="card-body p-5 d-flex flex-column align-items-center">
+              <div class="mb-3 fs-1">🦖</div>
+              <h3 class="card-title fw-bold mb-3 dino-text">シミュレーター</h3>
+              <p class="card-text text-muted mb-4">
+                自分のステータスと敵のレベルから、<br />
+                被ダメージや回復時間を計算します。
+              </p>
+              <span class="btn btn-success btn-lg rounded-pill px-5 shadow-sm w-100 mt-auto">計算する</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-5 col-lg-4">
+        <a href="{% url 'shousai' %}" class="text-decoration-none">
+          <div class="card h-100 shadow-sm border-0 hover-card bg-white">
+            <div class="card-body p-5 d-flex flex-column align-items-center">
+              <div class="mb-3 fs-1">📜</div>
+              <h3 class="card-title fw-bold mb-3 dino-text">敵一覧データ</h3>
+              <p class="card-text text-muted mb-4">
+                レベルごとの敵のステータスや、<br />
+                ドロップ素材（肉・皮など）を確認します。
+              </p>
+              <span class="btn btn-success btn-lg rounded-pill px-5 shadow-sm w-100 mt-auto">データを見る</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-5">
+      <div class="col-md-10 col-lg-8">
+        <div class="card shadow-sm border-0 bg-white">
+          <div class="card-body p-4 text-start">
+            <h3 class="card-title fw-bold mb-3 dino-text border-bottom pb-2">このポートフォリオについて</h3>
+            <p class="card-text text-muted">
+              このポートフォリオは私が普段遊んでいるスマホのゲームの機能の一部を可視化したものになります。<br />
+              休みの暇なときに、ふと、このワールドの恐竜をすべて狩りしたらどれくらい素材がもらえるんだろう…。と思ってエクセルに控えたのが始まりです。<br />
+              実際に表示されているのは敵の体力と攻撃力ともらえる素材だけで、自分の恐竜がどのくらい回復時間で動けなくなるのか気になったのがきっかけです。<br />
+              エクセルでは頭がこんがらがりながら3日かけて総合被ダメージ量と回復時間を計算しました。<br />
+              このポートフォリオでは１週間近くかけて作りました。<br />
+              この作品はPython、Django、を使用し、エクセルのデータはJSONでデータ管理しています。<br />
+              上の「狩り情報」をクリックするとGithubに戻れるようにしました。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
