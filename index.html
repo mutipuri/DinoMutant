@@ -1,18 +1,9 @@
-{% extends 'base.html' %}
-{% load static %}
-
-{% block htitle %}
   敵レベル&被ダメ計算ツール
-{% endblock %}
 
-{% block mtitle %}
   DinoMutantの攻略・計算ツールへようこそ！
-{% endblock %}
 
-{% block content %}
   <div class="text-center py-4">
     <div class="mb-5">
-      {# アイコン画像 #}
       <img src="{% static 'img/icon.webp' %}" alt="DinoMutant Icon" class="home-icon img-fluid rounded-circle shadow mb-4" width="180" height="180" />
       <h2 class="fw-bold mb-3 dino-text">Let's Hunting!</h2>
       <p class="text-muted fs-5">
@@ -22,7 +13,6 @@
     </div>
 
     <div class="row justify-content-center g-4">
-      {# シミュレーターへのリンク #}
       <div class="col-md-5 col-lg-4">
         <a href="{% url 'simulation' %}" class="text-decoration-none">
           <div class="card h-100 shadow-sm border-0 hover-card bg-white">
@@ -39,7 +29,6 @@
         </a>
       </div>
 
-      {# 敵一覧へのリンク #}
       <div class="col-md-5 col-lg-4">
         <a href="{% url 'shousai' %}" class="text-decoration-none">
           <div class="card h-100 shadow-sm border-0 hover-card bg-white">
@@ -57,7 +46,6 @@
       </div>
     </div>
 
-    {# ポートフォリオについてのセクション #}
     <div class="row justify-content-center mt-5">
       <div class="col-md-10 col-lg-8">
         <div class="card shadow-sm border-0 bg-white">
@@ -77,4 +65,3 @@
       </div>
     </div>
   </div>
-{% endblock %}
