@@ -1,4 +1,7 @@
 portfolioと書かれてるファイルが今回個人で作成したものになります。
+以下のURLを開くとサイトで見れます↓
+
+https://obentou.pythonanywhere.com
 
 
 ## 作成した機能について
